@@ -1,7 +1,7 @@
-// Vendors
+// Import vendors
 import { gsap } from 'gsap'
 
-// Main script
+// Import utility
 import DomInject from '../src/index'
 
 // Create an instance of the DomInject class
@@ -12,8 +12,8 @@ const triggers = document.querySelectorAll('[data-fetch]')
 
 triggers.forEach(function (trigger) {
 	trigger.addEventListener('click', () => {
-		domInject.loadContent(trigger, '/sub/1.html', '.content:last-child', {
-			mode: trigger.dataset.fetchMode ?? 'replace',
+		domInject.loadContent(trigger, '/sub/3.html', '.content', {
+			mode: 'replace',
 			includeParent: true,
 			beforeFetch: (trigger) => console.log('Before fetch', trigger),
 			afterFetch: (trigger) => {
@@ -26,6 +26,10 @@ triggers.forEach(function (trigger) {
 					duration: 0.5,
 				})
 			},
+			onError: (error) => {
+				console.error('Custom error handler:', error)
+			},
+			muteErrors: true,
 		})
 	})
 })

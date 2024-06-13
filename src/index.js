@@ -36,11 +36,23 @@ export default class DomInject {
 		target,
 		sourceUrl = null,
 		sourceScope = null,
-		{ mode = 'replace', beforeFetch = null, afterFetch = null, includeParent = false } = {}
+		{
+			mode = 'replace',
+			beforeFetch = null,
+			afterFetch = null,
+			includeParent = false,
+			onError = null,
+			muteErrors = false,
+		} = {},
 	) {
 		const targetElement = typeof target === 'string' ? document.querySelector(target) : target
 		if (!targetElement) {
-			console.error(`Target element not found.`)
+			if (!muteErrors) {
+				console.error(`Target element not found.`)
+			}
+			if (onError) {
+				onError(new Error('Target element not found.'))
+			}
 			return
 		}
 
@@ -68,8 +80,13 @@ export default class DomInject {
 				}
 			})
 			.catch((error) => {
-				console.error('Error fetching content:', error)
+				if (!muteErrors) {
+					console.error('Error fetching content:', error)
+				}
 				this._toggleLoadingState(targetElement, false, true)
+				if (onError) {
+					onError(error)
+				}
 			})
 	}
 
