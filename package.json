@@ -1,0 +1,74 @@
+{
+	"name": "dom-inject",
+	"version": "0.0.1",
+	"description": "",
+	"files": [
+		"dist/**/*",
+		"bundled/**/*"
+	],
+	"sideEffects": false,
+	"source": "src/dom-inject.js",
+	"main": "dist/dom-inject.js",
+	"umd:main": "dist/dom-inject.umd.js",
+	"module": "dist/dom-inject.mjs",
+	"types": "dist/types/dom-inject.d.ts",
+	"exports": {
+		"require": "./dist/dom-inject.js",
+		"default": "./dist/dom-inject.modern.mjs"
+	},
+	"scripts": {
+		"dev": "vite",
+		"clean": "npm-run-all --parallel clean:bundled clean:dist",
+		"clean:bundled": "rm -rf bundled",
+		"clean:dist": "rm -rf dist",
+		"prepublishOnly": "npm version patch",
+		"postpublish": "git push --follow-tags",
+		"preversion": "npm run build",
+		"build": "npm-run-all --parallel clean build:dist build:bundle build:types",
+		"build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js",
+		"build:dist": "microbundle build -i src/ --o ./dist",
+		"build:bundle": "npm-run-all build:bundle-full build:bundle-min",
+		"build:bundle-full": "microbundle build -i src/ --o ./bundled/index.js --no-sourcemap --no-pkg-main --external none --name dom-inject --format umd  --no-compress",
+		"build:bundle-min": "microbundle build -i src/ --o ./bundled/index.min.js --no-sourcemap --no-pkg-main --external none --name dom-inject --format umd"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/coderesolution/dom-inject.git"
+	},
+	"keywords": [],
+	"author": "@coderesolution",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/coderesolution/dom-inject/issues"
+	},
+	"homepage": "https://github.com/coderesolution/dom-inject#readme",
+	"devDependencies": {
+		"@size-limit/preset-small-lib": "^11.1.4",
+		"eslint": "^9.3.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-config-standard": "^17.1.0",
+		"eslint-plugin-import": "^2.29.1",
+		"eslint-plugin-n": "^17.7.0",
+		"eslint-plugin-promise": "^6.1.1",
+		"eslint-plugin-react": "^7.34.1",
+		"eslint-plugin-react-hooks": "^4.6.2",
+		"microbundle": "^0.15.1",
+		"npm-run-all": "^4.1.5",
+		"prettier": "^3.2.5",
+		"typescript": "^5.4.5",
+		"vite": "^5.2.11"
+	},
+	"size-limit": [
+		{
+			"limit": "3 kB",
+			"path": "dist/index.js"
+		},
+		{
+			"limit": "2 kB",
+			"path": "dist/index.mjs"
+		}
+	],
+	"dependencies": {
+		"gsap": "npm:@gsap/shockingly@^3.12.5"
+	}
+}

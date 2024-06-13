@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>dom-inject: playground</title>
+		<script type="module" src="./main.js"></script>
+		<link rel="stylesheet" href="./index.css" />
+	</head>
+	<body class="main">
+
+		<header>
+			<a href="/" class="is-active">Home</a>
+			<a href="/sub/1.html">Page #1</a>
+			<a href="/sub/2.html">Page #2</a>
+		</header>
+
+		<section class="tester">
+			<div class="section_label">
+				<div class="label_heading">Replace</div>
+				<div class="label_description">
+					<p>Click on the element</p>
+				</div>
+			</div>
+			<div class="section_canvas">
+				<div class="boxes">
+					<figure class="box" data-fetch>Replace content</figure>
+				</div>
+			</div>
+		</section>
+
+		<section class="tester">
+			<div class="section_label">
+				<div class="label_heading">Insert before and after</div>
+				<div class="label_description">
+					<p>Click on the elements</p>
+				</div>
+			</div>
+			<div class="section_canvas">
+				<div class="boxes">
+					<figure class="box" data-fetch data-fetch-mode="prepend">
+						<div class="box_label -bottom">Prepend</div>
+					</figure>
+					<figure class="box" data-fetch data-fetch-mode="append">
+						<div class="box_label -top">Append</div>
+					</figure>
+				</div>
+			</div>
+		</section>
+
+	</body>
+</html>
