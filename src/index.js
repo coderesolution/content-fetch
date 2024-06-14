@@ -2,6 +2,8 @@
  * Written by Elliott Mangham at Code Resolution. Maintained by Code Resolution.
  * made@coderesolution.com
  */
+import DOMPurify from 'dompurify'
+
 export default class DomInject {
 	constructor(options = {}) {
 		this.options = {
@@ -33,12 +35,18 @@ export default class DomInject {
 			.then((data) => {
 				const parser = new DOMParser()
 				const doc = parser.parseFromString(data, 'text/html')
-				const element = sourceScope ? doc.querySelector(sourceScope) : doc.body
+				let element = sourceScope ? doc.querySelector(sourceScope) : doc.body
 				if (!element) {
 					throw new Error(`Element not found for selector: ${sourceScope}`)
 				}
 				this.log('Parsed HTML and found element')
-				return includeParent && sourceScope ? element.outerHTML : element.innerHTML
+
+				// Sanitize the HTML content
+				element =
+					includeParent && sourceScope
+						? DOMPurify.sanitize(element.outerHTML)
+						: DOMPurify.sanitize(element.innerHTML)
+				return element
 			})
 	}
 
@@ -80,9 +88,10 @@ export default class DomInject {
 					return reject(error)
 				}
 				const html = includeParent ? sourceElement.outerHTML : sourceElement.innerHTML
-				this.cache.set(cacheKey, html)
-				if (onEnd) onEnd(html)
-				resolve(html)
+				const sanitizedHtml = DOMPurify.sanitize(html)
+				this.cache.set(cacheKey, sanitizedHtml)
+				if (onEnd) onEnd(sanitizedHtml)
+				resolve(sanitizedHtml)
 			} else {
 				this.fetchContent(url, selector, includeParent)
 					.then((html) => {
@@ -161,7 +170,7 @@ export default class DomInject {
 				return this.to({ ...toParams, data: html })
 			})
 			.catch((error) => {
-				console.error('fromTo encountered an error:', error)
+				// errors are handled in from() and to()
 			})
 	}
 

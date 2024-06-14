@@ -1,11 +1,8 @@
-// Import vendors
-import { gsap } from 'gsap'
-
 // Import the DomInject instance
 import DomInject from '../src/index'
 
 // Create an instance of DomInject with debugMode enabled
-const domInject = new DomInject({ debugMode: false })
+const domInject = new DomInject({ debugMode: true })
 
 // Create animations on the injected elements
 const animateContent = (target) => {
