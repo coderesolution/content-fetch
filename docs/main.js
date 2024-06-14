@@ -1,8 +1,11 @@
 // Import vendors
 import { gsap } from 'gsap'
 
-// Import utility
-import DomInject from '../src/index' // Update the path as per your project structure
+// Import the DomInject instance
+import DomInject from '../src/index'
+
+// Create an instance of DomInject with debugMode enabled
+const domInject = new DomInject({ debugMode: false })
 
 // Create animations on the injected elements
 const animateContent = (target) => {
@@ -21,26 +24,26 @@ const animateContent = (target) => {
 // Test
 const triggers = document.querySelectorAll('[data-fetch]')
 
-triggers.forEach(function (trigger) {
+triggers.forEach((trigger) => {
 	trigger.addEventListener('click', () => {
-		DomInject.fromTo(
+		domInject.fromTo(
 			{
 				selector: trigger.dataset.fetchSelector,
 				url: trigger.dataset.fetchUrl,
 				includeParent: trigger.dataset.includeParent ?? true,
-				onStart: () => console.log('Getting content'),
-				onEnd: (html) => console.log('Content received', html),
-				// onError: (error) => console.error('Custom error handler in from:', error),
+				// onStart: () => console.log('Getting content'),
+				// onEnd: (html) => console.log('Content received', html),
+				//onError: (error) => console.error('Custom error handler on from:', error),
 			},
 			{
 				destination: trigger,
 				mode: trigger.dataset.fetchMode ?? 'replace',
-				onStart: (target) => console.log('About to inject data', target),
+				// onStart: (target) => console.log('About to inject data', target),
 				onEnd: (target) => {
-					console.log('Injected successfully', target)
+					//console.log('Injected successfully', target)
 					animateContent(target)
 				},
-				// onError: (error) => console.error('Custom error handler in to:', error),
+				//onError: (error) => console.error('Custom error handler on to:', error),
 			},
 		)
 	})
