@@ -111,7 +111,7 @@ export default class DomInject {
 		})
 	}
 
-	to({ destination, data, mode = 'replace', onStart, onEnd, onError }) {
+	to({ destination, data, mode = 'replace', delay = 0, onStart, onEnd, onError }) {
 		if (!destination || !data) {
 			const error = new Error('Destination and data must be defined.')
 			if (onError) {
@@ -138,40 +138,49 @@ export default class DomInject {
 		// Add loading class
 		targetElement.classList.add(this.options.loadingClass)
 
-		try {
-			this.log(`Injecting data with mode: ${mode}`)
-			const fragment = document.createDocumentFragment()
-			const tempDiv = document.createElement('div')
-			tempDiv.innerHTML = data
+		const injectContent = () => {
+			try {
+				this.log(`Injecting data with mode: ${mode}`)
+				const fragment = document.createDocumentFragment()
+				const tempDiv = document.createElement('div')
+				tempDiv.innerHTML = data
 
-			if (mode === 'prepend') {
-				for (const node of [...tempDiv.childNodes].reverse()) {
-					targetElement.insertBefore(node, targetElement.firstChild)
+				if (mode === 'prepend') {
+					for (const node of [...tempDiv.childNodes].reverse()) {
+						targetElement.insertBefore(node, targetElement.firstChild)
+					}
+				} else if (mode === 'append') {
+					targetElement.appendChild(tempDiv)
+				} else {
+					targetElement.innerHTML = '' // Clear the existing content
+					targetElement.appendChild(tempDiv)
 				}
-			} else if (mode === 'append') {
-				targetElement.appendChild(tempDiv)
-			} else {
-				targetElement.innerHTML = '' // Clear the existing content
-				targetElement.appendChild(tempDiv)
+
+				// Remove loading class and add loaded class
+				targetElement.classList.remove(this.options.loadingClass)
+				targetElement.classList.add(this.options.loadedClass)
+
+				if (onEnd) onEnd(targetElement)
+				return Promise.resolve(targetElement)
+			} catch (error) {
+				// Remove loading class and add error class
+				targetElement.classList.remove(this.options.loadingClass)
+				targetElement.classList.add(this.options.errorClass)
+
+				if (onError) {
+					onError(error)
+				} else {
+					console.error('Error injecting content:', error)
+				}
+				return Promise.reject(error)
 			}
+		}
 
-			// Remove loading class and add loaded class
-			targetElement.classList.remove(this.options.loadingClass)
-			targetElement.classList.add(this.options.loadedClass)
-
-			if (onEnd) onEnd(targetElement)
-			return Promise.resolve(targetElement)
-		} catch (error) {
-			// Remove loading class and add error class
-			targetElement.classList.remove(this.options.loadingClass)
-			targetElement.classList.add(this.options.errorClass)
-
-			if (onError) {
-				onError(error)
-			} else {
-				console.error('Error injecting content:', error)
-			}
-			return Promise.reject(error)
+		if (delay > 0) {
+			this.log(`Delaying injection by ${delay} seconds`)
+			setTimeout(injectContent, delay * 1000)
+		} else {
+			return injectContent()
 		}
 	}
 

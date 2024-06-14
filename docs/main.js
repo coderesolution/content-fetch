@@ -28,13 +28,18 @@ triggers.forEach((trigger) => {
 				selector: trigger.dataset.fetchSelector,
 				url: trigger.dataset.fetchUrl,
 				includeParent: trigger.dataset.includeParent ?? true,
-				// onStart: () => console.log('Getting content'),
+				onStart: () => {
+					gsap.to(trigger, 1, {
+						backgroundColor: 'blue',
+					})
+				},
 				// onEnd: (html) => console.log('Content received', html),
 				//onError: (error) => console.error('Custom error handler on from:', error),
 			},
 			{
 				destination: trigger,
 				mode: trigger.dataset.fetchMode ?? 'replace',
+				delay: parseFloat(trigger.dataset.fetchDelay) || 0,
 				// onStart: (target) => console.log('About to inject data', target),
 				onEnd: (target) => {
 					//console.log('Injected successfully', target)
