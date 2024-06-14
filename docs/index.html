@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -8,7 +8,6 @@
 		<link rel="stylesheet" href="./index.css" />
 	</head>
 	<body class="main">
-
 		<header>
 			<a href="/" class="is-active">Home</a>
 			<a href="/sub/1.html">Page #1</a>
@@ -24,7 +23,9 @@
 			</div>
 			<div class="section_canvas">
 				<div class="boxes">
-					<figure class="box" data-fetch>Replace content</figure>
+					<figure class="box" data-fetch data-fetch-url="/sub/1.html" data-fetch-scope=".content">
+						Replace content
+					</figure>
 				</div>
 			</div>
 		</section>
@@ -38,15 +39,80 @@
 			</div>
 			<div class="section_canvas">
 				<div class="boxes">
-					<figure class="box" data-fetch data-fetch-mode="prepend">
+					<figure
+						class="box"
+						data-fetch
+						data-fetch-url="/sub/1.html"
+						data-fetch-scope=".content"
+						data-fetch-mode="prepend"
+					>
 						<div class="box_label -bottom">Prepend</div>
 					</figure>
-					<figure class="box" data-fetch data-fetch-mode="append">
+					<figure
+						class="box"
+						data-fetch
+						data-fetch-url="/sub/1.html"
+						data-fetch-scope=".content"
+						data-fetch-mode="append"
+					>
 						<div class="box_label -top">Append</div>
 					</figure>
 				</div>
 			</div>
 		</section>
 
+		<section class="tester">
+			<div class="section_label">
+				<div class="label_heading">On-page</div>
+				<div class="label_description">
+					<p>Click on the elements</p>
+				</div>
+			</div>
+			<div class="section_canvas">
+				<div class="boxes">
+					<figure
+						class="box"
+						data-fetch
+						data-fetch-url="/sub/1.html"
+						data-fetch-scope=".content"
+						data-fetch-mode="append"
+					>
+						<div class="box_label -top">On-site</div>
+					</figure>
+					<figure class="box" data-fetch data-fetch-scope=".content" data-fetch-mode="append">
+						<div class="box_label -top">External</div>
+					</figure>
+				</div>
+			</div>
+
+			<section class="content -hidden">
+				<h1 class="content_heading">Same page content</h1>
+				<div class="content_text">
+					<p>This is some text.</p>
+					<p>This is some text.</p>
+					<p>This is some text.</p>
+					<p>This is some text.</p>
+					<p>This is some text.</p>
+				</div>
+			</section>
+		</section>
+
+		<section class="tester">
+			<div class="section_label">
+				<div class="label_heading">HTML</div>
+				<div class="label_description">
+					<p>Click on the elements</p>
+				</div>
+			</div>
+			<div class="section_canvas">
+				<div class="boxes">
+					<figure
+						class="box"
+						data-fetch
+						data-fetch-mode="append"
+					></figure>
+				</div>
+			</div>
+		</section>
 	</body>
 </html>

@@ -244,6 +244,11 @@ section.tester {
 				&:not(.is-loaded) {
 					cursor: pointer;
 				}
+
+				.content h1 {
+					font-weight: bolder;
+					margin-bottom: 10px;
+				}
 			}
 
 				.box_label {
@@ -273,4 +278,8 @@ section.tester {
 section.content {
 	font-size: 16px;
 	padding: 30px;
+
+	&.-hidden {
+		display: none;
+	}
 }
