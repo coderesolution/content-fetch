@@ -2,49 +2,46 @@
 import { gsap } from 'gsap'
 
 // Import utility
-import DomInject from '../src/index'
+import DomInject from '../src/index' // Update the path as per your project structure
 
-// Create an instance of the DomInject class
-const domInject = new DomInject()
+// Create animations on the injected elements
+const animateContent = (target) => {
+	gsap.fromTo(
+		target.querySelectorAll('h1, p'),
+		{ opacity: 0, y: 20 },
+		{
+			opacity: 1,
+			y: 0,
+			stagger: 0.1,
+			duration: 0.5,
+		},
+	)
+}
 
 // Test
 const triggers = document.querySelectorAll('[data-fetch]')
-const content = document.querySelector('.content')
 
 triggers.forEach(function (trigger) {
 	trigger.addEventListener('click', () => {
-		const contentSource = trigger.dataset.fetchUrl || null
-		const sourceScope = trigger.dataset.fetchScope || null
-
-		domInject.loadContent(trigger, contentSource, sourceScope, {
-			mode: trigger.dataset.fetchMode ?? 'replace',
-			includeParent: trigger.dataset.includeParent ?? true,
-			beforeFetch: (trigger) => console.log('Before fetch', trigger),
-			afterFetch: (trigger) => {
-				console.log('After fetch', trigger)
-
-				if (!trigger.dataset.fetchSource && trigger.dataset.fetchScope) {
-					const fetchedContent = trigger.querySelectorAll(trigger.dataset.fetchScope)
-					fetchedContent.forEach(function (content) {
-						content.classList.remove('-hidden')
-					})
-				}
-
-				gsap.fromTo(
-					trigger.querySelectorAll('h1, p'),
-					{ opacity: 0, y: 20 },
-					{
-						opacity: 1,
-						y: 0,
-						stagger: 0.1,
-						duration: 0.5,
-					},
-				)
+		DomInject.fromTo(
+			{
+				selector: trigger.dataset.fetchSelector,
+				url: trigger.dataset.fetchUrl,
+				includeParent: trigger.dataset.includeParent ?? true,
+				onStart: () => console.log('Getting content'),
+				onEnd: (html) => console.log('Content received', html),
+				// onError: (error) => console.error('Custom error handler in from:', error),
 			},
-			// onError: (error) => {
-			// 	console.error('Custom error handler:', error)
-			// },
-			// muteErrors: true,
-		})
+			{
+				destination: trigger,
+				mode: trigger.dataset.fetchMode ?? 'replace',
+				onStart: (target) => console.log('About to inject data', target),
+				onEnd: (target) => {
+					console.log('Injected successfully', target)
+					animateContent(target)
+				},
+				// onError: (error) => console.error('Custom error handler in to:', error),
+			},
+		)
 	})
 })

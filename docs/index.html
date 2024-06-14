@@ -23,7 +23,7 @@
 			</div>
 			<div class="section_canvas">
 				<div class="boxes">
-					<figure class="box" data-fetch data-fetch-url="/sub/1.html" data-fetch-scope=".content">
+					<figure class="box" data-fetch data-fetch-url="/sub/1.html" data-fetch-selector=".content">
 						Replace content
 					</figure>
 				</div>
@@ -43,7 +43,7 @@
 						class="box"
 						data-fetch
 						data-fetch-url="/sub/1.html"
-						data-fetch-scope=".content"
+						data-fetch-selector=".content"
 						data-fetch-mode="prepend"
 					>
 						<div class="box_label -bottom">Prepend</div>
@@ -52,7 +52,7 @@
 						class="box"
 						data-fetch
 						data-fetch-url="/sub/1.html"
-						data-fetch-scope=".content"
+						data-fetch-selector=".content"
 						data-fetch-mode="append"
 					>
 						<div class="box_label -top">Append</div>
@@ -74,18 +74,18 @@
 						class="box"
 						data-fetch
 						data-fetch-url="/sub/1.html"
-						data-fetch-scope=".content"
+						data-fetch-selector=".content"
 						data-fetch-mode="append"
 					>
 						<div class="box_label -top">On-site</div>
 					</figure>
-					<figure class="box" data-fetch data-fetch-scope=".content" data-fetch-mode="append">
+					<figure class="box" data-fetch data-fetch-selector=".hidden-content" data-fetch-mode="append">
 						<div class="box_label -top">External</div>
 					</figure>
 				</div>
 			</div>
 
-			<section class="content -hidden">
+			<section class="hidden-content">
 				<h1 class="content_heading">Same page content</h1>
 				<div class="content_text">
 					<p>This is some text.</p>
@@ -95,24 +95,6 @@
 					<p>This is some text.</p>
 				</div>
 			</section>
-		</section>
-
-		<section class="tester">
-			<div class="section_label">
-				<div class="label_heading">HTML</div>
-				<div class="label_description">
-					<p>Click on the elements</p>
-				</div>
-			</div>
-			<div class="section_canvas">
-				<div class="boxes">
-					<figure
-						class="box"
-						data-fetch
-						data-fetch-mode="append"
-					></figure>
-				</div>
-			</div>
 		</section>
 	</body>
 </html>

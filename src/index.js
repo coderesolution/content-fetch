@@ -1,7 +1,3 @@
-/**
- * Written by Elliott Mangham at Code Resolution. Maintained by Code Resolution.
- * made@coderesolution.com
- */
 export default class DomInject {
 	constructor(options = {}) {
 		this.options = {
@@ -12,7 +8,7 @@ export default class DomInject {
 		}
 	}
 
-	fetchContent(sourceUrl, sourceScope = null, includeParent = false) {
+	static fetchContent(sourceUrl, sourceScope = null, includeParent = false) {
 		const url = sourceUrl || window.location.href
 		return fetch(url)
 			.then((response) => {
@@ -32,67 +28,105 @@ export default class DomInject {
 			})
 	}
 
-	loadContent(
-		target,
-		sourceUrl = null,
-		sourceScope = null,
-		{
-			mode = 'replace',
-			beforeFetch = null,
-			afterFetch = null,
-			includeParent = false,
-			onError = null,
-			muteErrors = false,
-		} = {},
-	) {
-		const targetElement = typeof target === 'string' ? document.querySelector(target) : target
-		if (!targetElement) {
-			if (!muteErrors) {
-				console.error(`Target element not found.`)
-			}
+	static from({ selector, url = window.location.href, includeParent = false, onStart, onEnd, onError }) {
+		if (!selector) {
+			const error = new Error('Selector must be defined.')
 			if (onError) {
-				onError(new Error('Target element not found.'))
+				onError(error)
+			} else {
+				console.error(error)
 			}
-			return
+			return Promise.reject(error)
 		}
 
-		this._toggleLoadingState(targetElement, true)
+		if (onStart) onStart()
 
-		if (beforeFetch) {
-			beforeFetch(targetElement)
-		}
-
-		this.fetchContent(sourceUrl, sourceScope, includeParent)
-			.then((html) => {
-				if (mode === 'prepend') {
-					targetElement.insertAdjacentHTML('afterbegin', html)
-				} else if (mode === 'append') {
-					targetElement.insertAdjacentHTML('beforeend', html)
-				} else {
-					// default to 'replace'
-					targetElement.innerHTML = html
+		return new Promise((resolve, reject) => {
+			if (url === window.location.href) {
+				const sourceElement = document.querySelector(selector)
+				if (!sourceElement) {
+					const error = new Error(`Element not found for selector: ${selector}`)
+					if (onError) {
+						onError(error)
+					} else {
+						console.error(error)
+					}
+					return reject(error)
 				}
-
-				this._toggleLoadingState(targetElement, false)
-
-				if (afterFetch) {
-					afterFetch(targetElement)
-				}
-			})
-			.catch((error) => {
-				if (!muteErrors) {
-					console.error('Error fetching content:', error)
-				}
-				this._toggleLoadingState(targetElement, false, true)
-				if (onError) {
-					onError(error)
-				}
-			})
+				const html = includeParent ? sourceElement.outerHTML : sourceElement.innerHTML
+				if (onEnd) onEnd(html)
+				resolve(html)
+			} else {
+				this.fetchContent(url, selector, includeParent)
+					.then((html) => {
+						if (onEnd) onEnd(html)
+						resolve(html)
+					})
+					.catch((error) => {
+						if (onError) {
+							onError(error)
+						} else {
+							console.error('Error fetching content:', error)
+						}
+						reject(error)
+					})
+			}
+		})
 	}
 
-	_toggleLoadingState(element, isLoading, isError = false) {
-		element.classList.toggle(this.options.loadingClass, isLoading)
-		element.classList.toggle(this.options.loadedClass, !isLoading && !isError)
-		element.classList.toggle(this.options.errorClass, isError)
+	static to({ destination, data, mode = 'replace', onStart, onEnd, onError }) {
+		if (!destination || !data) {
+			const error = new Error('Destination and data must be defined.')
+			if (onError) {
+				onError(error)
+			} else {
+				console.error(error)
+			}
+			return Promise.reject(error)
+		}
+
+		const targetElement = typeof destination === 'string' ? document.querySelector(destination) : destination
+		if (!targetElement) {
+			const error = new Error(`Target element not found for selector: ${destination}`)
+			if (onError) {
+				onError(error)
+			} else {
+				console.error(error)
+			}
+			return Promise.reject(error)
+		}
+
+		if (onStart) onStart(targetElement)
+
+		try {
+			if (mode === 'prepend') {
+				targetElement.insertAdjacentHTML('afterbegin', data)
+			} else if (mode === 'append') {
+				targetElement.insertAdjacentHTML('beforeend', data)
+			} else {
+				// default to 'replace'
+				targetElement.innerHTML = data
+			}
+
+			if (onEnd) onEnd(targetElement)
+			return Promise.resolve(targetElement)
+		} catch (error) {
+			if (onError) {
+				onError(error)
+			} else {
+				console.error('Error injecting content:', error)
+			}
+			return Promise.reject(error)
+		}
+	}
+
+	static fromTo(fromParams, toParams) {
+		this.from(fromParams)
+			.then((html) => {
+				return this.to({ ...toParams, data: html })
+			})
+			.catch((error) => {
+				// No need to console.error here as from and to already handle it
+			})
 	}
 }
