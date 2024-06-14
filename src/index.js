@@ -135,6 +135,9 @@ export default class DomInject {
 
 		if (onStart) onStart(targetElement)
 
+		// Add loading class
+		targetElement.classList.add(this.options.loadingClass)
+
 		try {
 			this.log(`Injecting data with mode: ${mode}`)
 			const fragment = document.createDocumentFragment()
@@ -152,9 +155,17 @@ export default class DomInject {
 				targetElement.appendChild(tempDiv)
 			}
 
+			// Remove loading class and add loaded class
+			targetElement.classList.remove(this.options.loadingClass)
+			targetElement.classList.add(this.options.loadedClass)
+
 			if (onEnd) onEnd(targetElement)
 			return Promise.resolve(targetElement)
 		} catch (error) {
+			// Remove loading class and add error class
+			targetElement.classList.remove(this.options.loadingClass)
+			targetElement.classList.add(this.options.errorClass)
+
 			if (onError) {
 				onError(error)
 			} else {
