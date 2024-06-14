@@ -1,9 +1,9 @@
 export default class DomInject {
 	constructor(options = {}) {
 		this.options = {
-			loadingClass: options.loadingClass || 'loading',
-			loadedClass: options.loadedClass || 'loaded',
-			errorClass: options.errorClass || 'error',
+			loadingClass: options.loadingClass || 'is-loading',
+			loadedClass: options.loadedClass || 'has-loaded',
+			errorClass: options.errorClass || 'has-error',
 			...options,
 		}
 	}
