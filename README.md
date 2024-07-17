@@ -48,7 +48,7 @@ contentFetch.fromTo(
 
 Fetches content from a specified URL or the current page.
 
-_Parameters:_
+**Parameters:**
 
 -   `selector` (string, required): The CSS selector for the element to fetch.
 -   `url` (string, optional): The URL to fetch content from. Defaults to the current page.
@@ -57,7 +57,7 @@ _Parameters:_
 -   `onEnd` (function, optional): Callback function to execute when fetching ends.
 -   `onError` (function, optional): Callback function to execute if an error occurs.
 
-_Example:_
+**Example:**
 
 ```js
 contentFetch.from({
@@ -73,7 +73,7 @@ contentFetch.from({
 
 Inserts content into a specified destination element.
 
-_Parameters:_
+**Parameters:**
 
 -   `destination` (string or HTMLElement, required): The CSS selector or DOM element to insert content into.
 -   `data` (string, required): The HTML content to insert.
@@ -83,7 +83,7 @@ _Parameters:_
 -   `onEnd` (function, optional): Callback function to execute when insertion ends.
 -   `onError` (function, optional): Callback function to execute if an error occurs.
 
-_Example:_
+**Example:**
 
 ```js
 contentFetch.to({
@@ -100,12 +100,12 @@ contentFetch.to({
 
 Fetches content using from and then inserts it using to.
 
-_Parameters:_
+**Parameters:**
 
 -   `fromParams` (object, required): Parameters for the from method.
 -   `toParams` (object, required): Parameters for the to method.
 
-_Example:_
+**Example:**
 
 ```js
 contentFetch.fromTo(
@@ -131,7 +131,7 @@ The `ContentFetch` constructor accepts an options object to customise behaviour:
 | `errorClass`   | string  | `'has-error'`  | Class added to target element on error      |
 | `debugMode`    | boolean | `false`        | Enables debug logging                       |
 
-_Example:_
+**Example:**
 
 ```js
 const contentFetch = new ContentFetch({
