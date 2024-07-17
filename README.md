@@ -1,6 +1,6 @@
 # ContentFetch
 
-ContentFetch is a JavaScript library for fetching and inserting content from one part of a webpage to another, or even from different webpages. It offers a simple API to handle these operations with ease, ensuring the content is sanitized and optionally cached.
+ContentFetch is a JavaScript library for fetching and inserting content from one part of a webpage to another, or even from different webpages. It offers a simple API to handle these operations with ease, ensuring the content is sanitised and cached to improve performance.
 
 ## Features
 
@@ -22,12 +22,7 @@ ContentFetch is not available on npm yet. For now, add the bundled code to your 
 ```js
 import ContentFetch from 'contentfetch'
 
-const contentFetch = new ContentFetch({
-	loadingClass: 'is-loading',
-	loadedClass: 'has-loaded',
-	errorClass: 'has-error',
-	debugMode: true,
-})
+const contentFetch = new ContentFetch()
 
 // Fetch content from a URL and insert it into a target element
 contentFetch.fromTo(
@@ -104,6 +99,8 @@ Fetches content using from and then inserts it using to.
 
 -   `fromParams` (object, required): Parameters for the from method.
 -   `toParams` (object, required): Parameters for the to method.
+
+Note: when using `fromTo()` you do not need a `data` property in the `toParams`, as it will automatically use the data supplied by `fromParams`.
 
 **Example:**
 
