@@ -13,14 +13,20 @@ ContentFetch is a JavaScript library for fetching and inserting content from one
 
 ## Installation
 
-ContentFetch is not available on npm yet. For now, add the bundled code to your project.
+You can install ContentFetch via npm:
+
+```bash
+npm install content-fetch
+```
 
 ## Usage
 
 ### Basic Usage
 
+**Install from NPM**
+
 ```js
-import ContentFetch from 'contentfetch'
+import ContentFetch from 'content-fetch'
 
 const contentFetch = new ContentFetch()
 
@@ -35,6 +41,12 @@ contentFetch.fromTo(
 		mode: 'replace',
 	}
 )
+```
+
+**Install from CDN**
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/content-fetch/bundled/index.min.js"></script>
 ```
 
 ### Methods
