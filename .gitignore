@@ -12,6 +12,7 @@ dist
 bundled
 dist-ssr
 *.local
+.npmrc
 
 # Editor directories and files
 .vscode/*
