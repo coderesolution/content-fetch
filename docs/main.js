@@ -1,8 +1,8 @@
-// Import the DomInject instance
-import DomInject from '../src/index'
+// Import the ContentFetch instance
+import ContentFetch from '../src/index'
 
-// Create an instance of DomInject with debugMode enabled
-const domInject = new DomInject({ debugMode: true })
+// Create an instance of ContentFetch with debugMode enabled
+const contentFetch = new ContentFetch({ debugMode: true })
 
 // Create animations on the injected elements
 const animateContent = (target) => {
@@ -23,7 +23,7 @@ const triggers = document.querySelectorAll('[data-fetch]')
 
 triggers.forEach((trigger) => {
 	trigger.addEventListener('click', () => {
-		domInject.fromTo(
+		contentFetch.fromTo(
 			{
 				selector: trigger.dataset.fetchSelector,
 				url: trigger.dataset.fetchUrl,

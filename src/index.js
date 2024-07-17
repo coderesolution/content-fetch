@@ -4,7 +4,7 @@
  */
 import DOMPurify from 'dompurify'
 
-export default class DomInject {
+export default class ContentFetch {
 	constructor(options = {}) {
 		this.options = {
 			loadingClass: options.loadingClass || 'is-loading',
@@ -138,9 +138,9 @@ export default class DomInject {
 		// Add loading class
 		targetElement.classList.add(this.options.loadingClass)
 
-		const injectContent = () => {
+		const insertContent = () => {
 			try {
-				this.log(`Injecting data with mode: ${mode}`)
+				this.log(`Inserting content via '${mode}' mode`)
 				const fragment = document.createDocumentFragment()
 				const tempDiv = document.createElement('div')
 				tempDiv.innerHTML = data
@@ -170,17 +170,17 @@ export default class DomInject {
 				if (onError) {
 					onError(error)
 				} else {
-					console.error('Error injecting content:', error)
+					console.error('Error inserting content:', error)
 				}
 				return Promise.reject(error)
 			}
 		}
 
 		if (delay > 0) {
-			this.log(`Delaying injection by ${delay} seconds`)
-			setTimeout(injectContent, delay * 1000)
+			this.log(`Delaying insertion by ${delay} seconds`)
+			setTimeout(insertContent, delay * 1000)
 		} else {
-			return injectContent()
+			return insertContent()
 		}
 	}
 
@@ -200,3 +200,5 @@ export default class DomInject {
 		this.cache.clear()
 	}
 }
+
+window.ContentFetch = ContentFetch
