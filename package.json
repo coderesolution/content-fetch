@@ -1,5 +1,5 @@
 {
-	"name": "dom-inject",
+	"name": "content-fetch",
 	"version": "0.0.1",
 	"description": "",
 	"files": [
@@ -7,14 +7,14 @@
 		"bundled/**/*"
 	],
 	"sideEffects": false,
-	"source": "src/dom-inject.js",
-	"main": "dist/dom-inject.js",
-	"umd:main": "dist/dom-inject.umd.js",
-	"module": "dist/dom-inject.mjs",
-	"types": "dist/types/dom-inject.d.ts",
+	"source": "src/content-fetch.js",
+	"main": "dist/content-fetch.js",
+	"umd:main": "dist/content-fetch.umd.js",
+	"module": "dist/content-fetch.mjs",
+	"types": "dist/types/content-fetch.d.ts",
 	"exports": {
-		"require": "./dist/dom-inject.js",
-		"default": "./dist/dom-inject.modern.mjs"
+		"require": "./dist/content-fetch.js",
+		"default": "./dist/content-fetch.modern.mjs"
 	},
 	"scripts": {
 		"dev": "vite",
@@ -28,20 +28,20 @@
 		"build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js",
 		"build:dist": "microbundle build -i src/ --o ./dist",
 		"build:bundle": "npm-run-all build:bundle-full build:bundle-min",
-		"build:bundle-full": "microbundle build -i src/ --o ./bundled/index.js --no-sourcemap --no-pkg-main --external none --name dom-inject --format umd  --no-compress",
-		"build:bundle-min": "microbundle build -i src/ --o ./bundled/index.min.js --no-sourcemap --no-pkg-main --external none --name dom-inject --format umd"
+		"build:bundle-full": "microbundle build -i src/ --o ./bundled/index.js --no-sourcemap --no-pkg-main --external none --name content-fetch --format umd  --no-compress",
+		"build:bundle-min": "microbundle build -i src/ --o ./bundled/index.min.js --no-sourcemap --no-pkg-main --external none --name content-fetch --format umd"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/coderesolution/dom-inject.git"
+		"url": "git+https://github.com/coderesolution/content-fetch.git"
 	},
 	"keywords": [],
 	"author": "@coderesolution",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/coderesolution/dom-inject/issues"
+		"url": "https://github.com/coderesolution/content-fetch/issues"
 	},
-	"homepage": "https://github.com/coderesolution/dom-inject#readme",
+	"homepage": "https://github.com/coderesolution/content-fetch#readme",
 	"devDependencies": {
 		"@size-limit/preset-small-lib": "^11.1.4",
 		"eslint": "^9.3.0",
