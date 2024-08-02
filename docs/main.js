@@ -2,7 +2,7 @@
 import ContentFetch from '../src/index'
 
 // Create an instance of ContentFetch with debugMode enabled
-const contentFetch = new ContentFetch({ debugMode: false })
+const contentFetch = new ContentFetch({ debugMode: true })
 
 // Create animations on the injected elements
 const animateContent = (target) => {
@@ -28,8 +28,8 @@ triggers.forEach((trigger) => {
 				selector: trigger.dataset.fetchSelector,
 				url: trigger.dataset.fetchUrl,
 				includeParent: trigger.dataset.includeParent ?? true,
-				onStart: (target) => {
-					console.log('FROM: start', target)
+				onStart: () => {
+					console.log('FROM: start')
 					gsap.to(trigger, 1, {
 						backgroundColor: 'blue',
 					})
