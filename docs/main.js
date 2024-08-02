@@ -2,7 +2,7 @@
 import ContentFetch from '../src/index'
 
 // Create an instance of ContentFetch with debugMode enabled
-const contentFetch = new ContentFetch({ debugMode: true })
+const contentFetch = new ContentFetch({ debugMode: false })
 
 // Create animations on the injected elements
 const animateContent = (target) => {
@@ -28,21 +28,26 @@ triggers.forEach((trigger) => {
 				selector: trigger.dataset.fetchSelector,
 				url: trigger.dataset.fetchUrl,
 				includeParent: trigger.dataset.includeParent ?? true,
-				onStart: () => {
+				onStart: (target) => {
+					console.log('FROM: start', target)
 					gsap.to(trigger, 1, {
 						backgroundColor: 'blue',
 					})
 				},
-				// onEnd: (html) => console.log('Content received', html),
+				onEnd: (target) => {
+					console.log('FROM: end', target)
+				},
 				//onError: (error) => console.error('Custom error handler on from:', error),
 			},
 			{
 				destination: trigger,
 				mode: trigger.dataset.fetchMode ?? 'replace',
 				delay: parseFloat(trigger.dataset.fetchDelay) || 0,
-				// onStart: (target) => console.log('About to inject data', target),
+				onStart: (target) => {
+					console.log('TO: start', target)
+				},
 				onEnd: (target) => {
-					//console.log('Injected successfully', target)
+					console.log('TO: end', target)
 					animateContent(target)
 				},
 				//onError: (error) => console.error('Custom error handler on to:', error),

@@ -39,7 +39,7 @@ contentFetch.fromTo(
 	{
 		destination: '#target-element',
 		mode: 'replace',
-	}
+	},
 )
 ```
 
@@ -86,7 +86,7 @@ Inserts content into a specified destination element.
 -   `data` (string, required): The HTML content to insert.
 -   `mode` (string, optional): The mode of insertion (replace, append, prepend). Defaults to replace.
 -   `delay` (number, optional): Delay in seconds before inserting content. Defaults to 0.
--   `onStart` (function, optional): Callback function to execute when insertion starts.
+-   `onStart` (function, optional): Callback function to execute when insertion starts. Can return a promise to delay the insertion.
 -   `onEnd` (function, optional): Callback function to execute when insertion ends.
 -   `onError` (function, optional): Callback function to execute if an error occurs.
 
@@ -97,8 +97,33 @@ contentFetch.to({
 	destination: '#target-element',
 	data: '<p>New content</p>',
 	mode: 'append',
-	onStart: (element) => console.log('Insertion started', element),
+	onStart: (destination, data) => console.log('Insertion started', destination, data),
 	onEnd: (element) => console.log('Insertion ended', element),
+	onError: (error) => console.error('Error inserting content', error),
+})
+```
+
+If you wish to animate something inside onStart and delay the rest of the process, you can return a promise from the onStart callback. The insertion will wait until the promise resolves:
+
+**Example with Animation:**
+
+```js
+contentFetch.to({
+	destination: content,
+	data: defaultHtml.innerHTML,
+	mode: 'replace',
+	onStart: (destination, data) => {
+		return new Promise((resolve) => {
+			gsap.to(destination.querySelector('.loading'), 1, {
+				opacity: 0,
+				x: 30,
+				onComplete: resolve,
+			})
+		})
+	},
+	onEnd: (element) => {
+		animateContent(element)
+	},
 	onError: (error) => console.error('Error inserting content', error),
 })
 ```
@@ -125,7 +150,7 @@ contentFetch.fromTo(
 	{
 		destination: '#target-element',
 		mode: 'replace',
-	}
+	},
 )
 ```
 

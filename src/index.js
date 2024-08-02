@@ -133,7 +133,7 @@ export default class ContentFetch {
 			return Promise.reject(error)
 		}
 
-		if (onStart) onStart(targetElement)
+		const startPromise = onStart ? Promise.resolve(onStart(destination, data)) : Promise.resolve()
 
 		// Add loading class
 		targetElement.classList.add(this.options.loadingClass)
@@ -178,9 +178,9 @@ export default class ContentFetch {
 
 		if (delay > 0) {
 			this.log(`Delaying insertion by ${delay} seconds`)
-			setTimeout(insertContent, delay * 1000)
+			setTimeout(() => startPromise.then(insertContent), delay * 1000)
 		} else {
-			return insertContent()
+			return startPromise.then(insertContent)
 		}
 	}
 
