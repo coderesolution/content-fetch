@@ -264,12 +264,13 @@ export default class ContentFetch {
 	}
 
 	fromTo(fromParams, toParams) {
-		this.from(fromParams)
+		return this.from(fromParams)
 			.then((html) => {
 				return this.to({ ...toParams, data: html })
 			})
 			.catch((error) => {
-				// errors are handled in from() and to()
+				// Handle errors and return the rejected promise
+				return Promise.reject(error)
 			})
 	}
 
