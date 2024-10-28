@@ -17,4 +17,8 @@ module.exports = {
 			},
 		],
 	],
+	bail: 1,
+	detectOpenHandles: true,
+	errorOnDeprecated: true,
+	logHeapUsage: true,
 }
