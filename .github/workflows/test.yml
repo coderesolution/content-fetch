@@ -8,6 +8,8 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x, 20.x]
+      # Add this to prevent all jobs from failing if one fails
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v4
@@ -17,14 +19,40 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      # Add cache for faster installations
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npm list # List installed packages for debugging
 
       - name: Run Tests
-        run: npm test
+        run: npm test -- --verbose
+        env:
+          CI: true
+          NODE_ENV: test
 
       - name: Build
         run: npm run build
+        if: success()
 
       - name: Lint
         run: npm run lint
+        if: success()
+
+      # Add this step to show the test output even if the tests fail
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.node-version }}
+          path: |
+            coverage/
+            junit.xml
