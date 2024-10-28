@@ -2,7 +2,10 @@
 import ContentFetch from '../src/index'
 
 // Create an instance of ContentFetch with debugMode enabled
-const contentFetch = new ContentFetch({ debugMode: true })
+const contentFetch = new ContentFetch({
+	allowedDomains: ['localhost'],
+	debugMode: true,
+})
 
 // Create animations on the injected elements
 const animateContent = (target) => {
@@ -23,6 +26,14 @@ const triggers = document.querySelectorAll('[data-fetch]')
 
 triggers.forEach((trigger) => {
 	trigger.addEventListener('click', () => {
+		console.log('Attempting to fetch from:', {
+			url: trigger.dataset.fetchUrl,
+			selector: trigger.dataset.fetchSelector,
+			mode: trigger.dataset.fetchMode,
+			includeParent: trigger.dataset.includeParent,
+			delay: trigger.dataset.fetchDelay,
+		})
+
 		contentFetch.fromTo(
 			{
 				selector: trigger.dataset.fetchSelector,

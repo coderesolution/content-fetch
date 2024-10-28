@@ -2,6 +2,14 @@
 
 ContentFetch is a JavaScript library for fetching and inserting content from one part of a webpage to another, or even from different webpages. It offers a simple API to handle these operations with ease, ensuring the content is sanitised and cached to improve performance.
 
+[![NPM Version](https://img.shields.io/npm/v/content-fetch.svg)](https://www.npmjs.com/package/content-fetch)
+[![NPM Downloads](https://img.shields.io/npm/dm/content-fetch.svg)](https://www.npmjs.com/package/content-fetch)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Known Vulnerabilities](https://snyk.io/test/github/coderesolution/content-fetch/badge.svg)](https://snyk.io/test/github/coderesolution/content-fetch)
+[![Tests](https://github.com/coderesolution/content-fetch/workflows/Test/badge.svg)](https://github.com/coderesolution/content-fetch/actions)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/content-fetch)](https://bundlephobia.com/package/content-fetch)
+[![GitHub stars](https://img.shields.io/github/stars/coderesolution/content-fetch.svg?style=social&label=Star)](https://github.com/coderesolution/content-fetch)
+
 ## Features
 
 -   Fetch content from the same or different webpages.
@@ -174,6 +182,63 @@ const contentFetch = new ContentFetch({
 	errorClass: 'error',
 	debugMode: true,
 })
+```
+
+## Security Features
+
+ContentFetch includes several security measures:
+
+### URL Validation
+
+-   Only absolute URLs are allowed
+-   Only http/https protocols are permitted
+-   URLs are sanitised before use
+
+### Domain Whitelisting
+
+```javascript
+// Development setup
+const fetcher = new ContentFetch({
+	allowedDomains: ['localhost'], // This will work for all localhost ports
+	debugMode: true,
+})
+
+// Production setup
+const fetcher = new ContentFetch({
+	allowedDomains: ['mydomain.com', 'api.mydomain.com'],
+})
+```
+
+Setting to `localhost` will allow:
+
+-   `http://localhost:3000`
+-   `http://localhost:8080`
+-   `http://127.0.0.1:3000`
+-   `http://[::1]:8080`
+
+### Same-Origin Policy
+
+Cross-origin requests require explicit configuration via `allowedDomains`.
+
+### Content Sanitisation
+
+All HTML content is sanitised using [DOMPurify](https://github.com/cure53/DOMPurify).
+
+### URL Handling
+
+ContentFetch handles various URL formats:
+
+```javascript
+// Absolute URLs
+contentFetch.from({ url: 'http://localhost:3000/page.html' })
+
+// Relative URLs (automatically converted using window.location.origin)
+contentFetch.from({ url: '/page.html' })
+contentFetch.from({ url: './page.html' })
+contentFetch.from({ url: '../page.html' })
+
+// If no URL is provided, current page URL is used
+contentFetch.from({ selector: '.content' })
 ```
 
 ## License
