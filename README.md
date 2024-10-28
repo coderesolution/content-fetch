@@ -6,7 +6,6 @@ ContentFetch is a JavaScript library for fetching and inserting content from one
 [![NPM Downloads](https://img.shields.io/npm/dm/content-fetch.svg)](https://www.npmjs.com/package/content-fetch)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Known Vulnerabilities](https://snyk.io/test/github/coderesolution/content-fetch/badge.svg)](https://snyk.io/test/github/coderesolution/content-fetch)
-[![Tests](https://github.com/coderesolution/content-fetch/workflows/Test/badge.svg)](https://github.com/coderesolution/content-fetch/actions)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/content-fetch)](https://bundlephobia.com/package/content-fetch)
 [![GitHub stars](https://img.shields.io/github/stars/coderesolution/content-fetch.svg?style=social&label=Star)](https://github.com/coderesolution/content-fetch)
 
