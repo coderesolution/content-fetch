@@ -12,7 +12,7 @@ describe('ContentFetch', () => {
 		// Setup
 		contentFetch = new ContentFetch({
 			allowedDomains: ['localhost'],
-			debugMode: true,
+			debugMode: false,
 		})
 
 		// Mock fetch
