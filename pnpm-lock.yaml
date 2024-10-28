@@ -66,6 +66,9 @@ importers:
       microbundle:
         specifier: ^0.15.1
         version: 0.15.1(@types/babel__core@7.20.5)
+      micromatch:
+        specifier: ^4.0.8
+        version: 4.0.8
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
