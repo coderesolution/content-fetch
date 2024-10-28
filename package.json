@@ -30,7 +30,7 @@
 		"build:bundle": "npm-run-all build:bundle-full build:bundle-min",
 		"build:bundle-full": "microbundle build -i src/ --o ./bundled/index.js --no-sourcemap --no-pkg-main --external none --name content-fetch --format umd  --no-compress",
 		"build:bundle-min": "microbundle build -i src/ --o ./bundled/index.min.js --no-sourcemap --no-pkg-main --external none --name content-fetch --format umd",
-		"test": "jest --verbose --detectOpenHandles --forceExit"
+		"test": "jest"
 	},
 	"repository": {
 		"type": "git",
