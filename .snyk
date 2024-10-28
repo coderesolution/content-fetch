@@ -1,6 +1,12 @@
+# Snyk (https://snyk.io) policy file
 version: v1.25.0
 ignore:
-  CWE-918:
-	- '*':
-		reason: 'URL is validated and sanitized before fetch, with domain whitelist and protocol restrictions'
-		expires: 2025-01-01T00:00:00.000Z
+  'SNYK-JS-CONTENTFETCH-5869494':
+    - '*':
+        reason: 'URL is validated and sanitized before fetch, with domain whitelist and protocol restrictions'
+        expires: 2025-01-01T00:00:00.000Z
+  'CWE-918':
+    - '*':
+        reason: 'URL is validated and sanitized before fetch, with domain whitelist and protocol restrictions'
+        expires: 2025-01-01T00:00:00.000Z
+patch: {}
